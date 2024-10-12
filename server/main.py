@@ -65,7 +65,7 @@ def create_pandas_agent():
     )
 
 class LLM:
-    def new(self):
+    def __init__(self):
         self.p_agent = create_pandas_agent()
         
         data_frame_units = get_owid_units_dataframe()
@@ -75,8 +75,15 @@ class LLM:
         self.data_frame_units = data_frame_units
 
     def query(self, query):
-        query = f'{query}\n{self.data_frame_units}'
-        return self.p_agent.invoke(query)
+        try:
+            lower_query = query.lower()
+            if "per capita" in lower_query:
+                query = f'{query} Make sure to divide the result by the population of the country.'
+            #query = f'{query}\n{self.data_frame_units}'
+            return self.p_agent.invoke(query)
+        except Exception as e:
+            print(e)
+            return "An error occurred while processing the query."
 
 llm = LLM()
 llm.query("Which country was consuming biofuel the most per capatia in 2019?")
