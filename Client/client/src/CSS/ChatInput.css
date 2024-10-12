@@ -114,3 +114,8 @@
   fill: #3c3c3c;
   stroke: white;
 }
+
+.ResponseClass {
+  color: white;
+  padding-top: 1rem;
+}
