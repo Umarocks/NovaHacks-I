@@ -1,0 +1,10 @@
+.chatInput {
+  position: absolute;
+  z-index: 1;
+  padding-left: 3rem;
+  padding-top: 20rem;
+}
+.ChatIconAndBox {
+  min-width: 2rem;
+  min-height: 2rem;
+}
