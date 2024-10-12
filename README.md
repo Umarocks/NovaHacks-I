@@ -20,4 +20,6 @@ def get_keys():
     ]
 ```
 
-4. Execute the application `python ./server/langchain-llvm/main.py`
+4. Install all needed dependencies from the `dependencies.txt` file.
+
+5. Execute the application `python ./server/langchain-llvm/main.py`

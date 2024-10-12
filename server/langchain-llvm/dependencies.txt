@@ -1,0 +1,6 @@
+pip install langchain
+pip install langchain-experimental
+pip install pandas
+pip install bs4
+pip install openai
+pip install tabulate
