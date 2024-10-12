@@ -19,3 +19,5 @@ def get_keys():
         "<YOUR API KEY HERE>"
     ]
 ```
+
+4. Execute the application `python ./server/langchain-llvm/main.py`
