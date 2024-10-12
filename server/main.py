@@ -2,7 +2,6 @@ from langchain_experimental.agents import create_pandas_dataframe_agent
 from langchain.llms import OpenAI
 import pandas as pd
 from openai_api_key import get_keys
-llm = OpenAI(temperature=0.3, openai_api_key = get_keys())
 
 def read_csv_into_dataframe(csv_name):
    df = pd.read_csv(csv_name)
@@ -56,12 +55,15 @@ def get_owid_units_dataframe():
 def create_pandas_agent():
     data_frame = get_owid_dataframe()
 
+    llm = OpenAI(temperature=0.7, openai_api_key = get_keys())
+
     return create_pandas_dataframe_agent(
         handle_parsing_errors = True,
         allow_dangerous_code = True,
         llm = llm,
         df = data_frame,
-        verbose = True
+        verbose = True,
+        return_intermediate_steps = True
     )
 
 class LLM:
@@ -79,11 +81,13 @@ class LLM:
             lower_query = query.lower()
             if "per capita" in lower_query:
                 query = f'{query} Make sure to divide the result by the population of the country.'
-            #query = f'{query}\n{self.data_frame_units}'
+            query = f'{query} Explain your reasoning to the user without mentioning the use of a dataframe.'
             return self.p_agent.invoke(query)
         except Exception as e:
             print(e)
             return "An error occurred while processing the query."
 
 llm = LLM()
-llm.query("Which country was consuming biofuel the most per capatia in 2019?")
+final_answer = llm.query("Which country used the most nuclear energy in 2019?")
+intermediate_steps = final_answer['intermediate_steps']
+print(final_answer)
