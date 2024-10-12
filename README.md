@@ -1,1 +1,21 @@
 # NovaHacks-I
+
+# Building from source:
+
+1. Clone the repo `git clone https://github.com/Umarocks/NovaHacks-I`
+
+2. Activate the python venv on the command line. </br>
+    Windows: `./server/langchain-llvm/Scripts/activate` </br>
+    Linux: `source venv ./server/langchain-llvm/bin/activate`
+
+3. Edit the `open_api_key.py` file on the toplevel directory:
+
+```python
+def get_keys():
+    return [
+        "<YOUR API KEY HERE>",
+        "<YOUR API KEY HERE>",
+        "<YOUR API KEY HERE>",
+        "<YOUR API KEY HERE>"
+    ]
+```
