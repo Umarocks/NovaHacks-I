@@ -4,3 +4,5 @@ pip install pandas
 pip install bs4
 pip install openai
 pip install tabulate
+pip install flask_cors
+pip install flask
