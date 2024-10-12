@@ -26,4 +26,4 @@ def handle_prompt_service(prompt):
     large_language_model = llm[0]
     final_answer = large_language_model.query(prompt)
     print(final_answer)
-    return final_answer
+    return final_answer['output']

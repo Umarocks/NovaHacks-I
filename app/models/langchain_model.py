@@ -63,5 +63,5 @@ def create_pandas_agent():
         llm = llm,
         df = data_frame,
         verbose = True,
-        return_intermediate_steps = True
+        return_intermediate_steps = False
     )
