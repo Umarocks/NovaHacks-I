@@ -30,13 +30,19 @@ def handle_prompt_service(prompt):
     print(final_answer)
     return final_answer['output']
 
+owid_energy_data = [pd.read_csv("./Datasets/owid-energy-data.csv")]
 def get_information_by_territory_service(territory, year, parameter):
-    year = str(year).trim()
+    ### Input format:
+    ### {
+    ###     "territories": ["Afghanistan", "India"],
+    ###     "year": 2019,
+    ###     "parameter": "biofuel_cons_change_twh"
+    ### }
 
-    data_frame = pd.read_csv("./Datasets/owid-energy-data.csv")
-    data_frame[~data_frame['Year'].str == year]
-    #data_frame.drop(subset=[parameter])
+    data_frame = owid_energy_data[0]
+    if territory is not None:
+        data_frame = data_frame[data_frame['Country'].isin(territory)]
+    data_frame = data_frame[data_frame['Year'] == year]
     data_frame = data_frame[['Country', parameter]]
 
-    # Placeholder function for getting information by territory
-    return {"territory": territory, "year": year, "parameter": parameter}
+    return data_frame.to_json()

@@ -1,7 +1,7 @@
 # app/controllers/api_controller.py
 
 from flask import Blueprint, request, jsonify
-from app.services.langchain_service import handle_prompt_service
+from app.services.langchain_service import handle_prompt_service, get_information_by_territory_service
 
 # Create a blueprint for API routes
 api = Blueprint('api', __name__)
@@ -26,9 +26,10 @@ def handle_prompt():
 def get_information_by_territory():
     try:
         # Get the territory from the query parameters
-        territory = request.args.get('territories') # skip this one for now, just do all
-        year = request.args.get('year')
-        parameter = request.args.get('parameter')
+        data = request.json
+        territory = data.get('territories')
+        year = data.get('year')
+        parameter = data.get('parameter')
 
         # Use the service function to get information by territory
         response = get_information_by_territory_service(territory, year, parameter)

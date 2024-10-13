@@ -9,15 +9,11 @@
     Linux: `source venv ./server/langchain-llvm/bin/activate`
 
 3. Edit the `open_api_key.py` file on the toplevel directory:
+Please contact me for the key.
 
 ```python
 def get_keys():
-    return [
-        "<YOUR API KEY HERE>",
-        "<YOUR API KEY HERE>",
-        "<YOUR API KEY HERE>",
-        "<YOUR API KEY HERE>"
-    ]
+    return "<YOUR API KEY HERE>"
 ```
 
 4. Install all needed dependencies from the `dependencies.txt` file.
