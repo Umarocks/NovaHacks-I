@@ -29,3 +29,14 @@ def handle_prompt_service(prompt):
     final_answer = large_language_model.query(prompt)
     print(final_answer)
     return final_answer['output']
+
+def get_information_by_territory_service(territory, year, parameter):
+    year = str(year).trim()
+
+    data_frame = pd.read_csv("./Datasets/owid-energy-data.csv")
+    data_frame[~data_frame['Year'].str == year]
+    #data_frame.drop(subset=[parameter])
+    data_frame = data_frame[['Country', parameter]]
+
+    # Placeholder function for getting information by territory
+    return {"territory": territory, "year": year, "parameter": parameter}

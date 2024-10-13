@@ -21,3 +21,20 @@ def handle_prompt():
     except Exception as e:
         # Return an error response if something goes wrong
         return jsonify({"error": str(e)}), 500
+    
+@api.route('/territories', methods=['GET'])
+def get_information_by_territory():
+    try:
+        # Get the territory from the query parameters
+        territory = request.args.get('territories') # skip this one for now, just do all
+        year = request.args.get('year')
+        parameter = request.args.get('parameter')
+
+        # Use the service function to get information by territory
+        response = get_information_by_territory_service(territory, year, parameter)
+
+        # Return the response as JSON
+        return jsonify(response), 200
+    except Exception as e:
+        # Return an error response if something goes wrong
+        return jsonify({"error": str(e)}), 500
