@@ -1,6 +1,7 @@
 # app/controllers/api_controller.py
 
 from flask import Blueprint, request, jsonify
+import pandas as pd
 from app.services.langchain_service import handle_prompt_service, get_information_by_territory_service
 
 # Create a blueprint for API routes
@@ -17,10 +18,10 @@ def handle_prompt():
         response = handle_prompt_service(prompt)
 
         # Return the response as JSON
-        return jsonify({"response": response}), 200
+        return jsonify({"response": response}), 200, {'Content-Type': 'application/json'}
     except Exception as e:
         # Return an error response if something goes wrong
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": str(e)}), 500, {'Content-Type': 'application/json'}
     
 @api.route('/territories', methods=['GET'])
 def get_information_by_territory():
@@ -35,7 +36,9 @@ def get_information_by_territory():
         response = get_information_by_territory_service(territory, year, parameter)
 
         # Return the response as JSON
-        return jsonify(response), 200
+        if isinstance(response, pd.DataFrame):
+            return response.to_json(orient='records'), 200, {'Content-Type': 'application/json'}
+        return jsonify(response), 200, {'Content-Type': 'application/json'}
     except Exception as e:
         # Return an error response if something goes wrong
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": str(e)}), 500, {'Content-Type': 'application/json'}

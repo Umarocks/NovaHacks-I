@@ -13,10 +13,10 @@ class LLM:
         try:
             lower_query = query.lower()
             if "per capita" in lower_query:
-                query = f'{query} Make sure to divide the result by the population of the country.'
+                query = f"{query} Make sure to divide the result by the population of the country."
             else:
-                query = f'{query} If the user asks for something unreleated, please respond "I cannot help with that."'
-            query = f'{query} Explain your reasoning to the user without mentioning the use of a dataframe.'
+                query = f"{query} If the user asks for something unreleated, please respond \"I cannot help with that.\""
+            query = f"{query} Explain your reasoning to the user without mentioning the use of a dataframe."
             return self.p_agent.invoke(query)
         except Exception as e:
             print(e)
@@ -28,9 +28,12 @@ def handle_prompt_service(prompt):
     large_language_model = llm[0]
     final_answer = large_language_model.query(prompt)
     print(final_answer)
-    return final_answer['output']
+    return final_answer["output"]
 
 owid_energy_data = [pd.read_csv("./Datasets/owid-energy-data.csv")]
+lat_long_data = [pd.read_csv("./Datasets/lat-long.csv")]
+lat_long_data[0] = lat_long_data[0][["Alpha-3 code", "Latitude (average)", "Longitude (average)"]]
+
 def get_information_by_territory_service(territory, year, parameter):
     ### Input format:
     ### {
@@ -41,8 +44,12 @@ def get_information_by_territory_service(territory, year, parameter):
 
     data_frame = owid_energy_data[0]
     if territory is not None:
-        data_frame = data_frame[data_frame['Country'].isin(territory)]
-    data_frame = data_frame[data_frame['Year'] == year]
-    data_frame = data_frame[['Country', parameter]]
+        data_frame = data_frame[data_frame["Country"].isin(territory)]
+    data_frame = data_frame[data_frame["Year"] == year]
 
-    return data_frame.to_json()
+    # Merge the data with the latitude and longitude data
+    lat_long = lat_long_data[0]
+    data_frame = data_frame.merge(lat_long, how="left", left_on="iso_code", right_on="Alpha-3 code")
+    data_frame = data_frame[["Country", "iso_code", "Latitude (average)", "Longitude (average)", "Alpha-3 code", parameter]]
+
+    return data_frame
