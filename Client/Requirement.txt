@@ -1,5 +1,7 @@
-react-globe.gl@1.0.4
-three
-tailwindcss postcss autoprefixer
-postcss-cli
-csv-parser
+npm install react-globe.gl@1.0.4
+npm install three
+npm install tailwindcss postcss autoprefixer
+npm install postcss-cli
+npm install csv-parser
+npm install @mui/material @emotion/react @emotion/styled
+npm install @mui/icons-material

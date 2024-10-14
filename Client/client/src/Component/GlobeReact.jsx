@@ -21,11 +21,15 @@ const GlobeReact = () => {
       <ChatIcon isChatIcon={isChatIcon} setIsChatIcon={setIsChatIcon} />
       {!isChatIcon && <ChatInput />}
       <Input />
-      <Globe
-        ref={globeEl}
-        globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
-        backgroundImageUrl={"//unpkg.com/three-globe/example/img/night-sky.png"}
-      />
+      {
+        <Globe
+          ref={globeEl}
+          globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
+          backgroundImageUrl={
+            "//unpkg.com/three-globe/example/img/night-sky.png"
+          }
+        />
+      }
       ;
     </div>
   );
