@@ -5,27 +5,19 @@ import data from "./data.json";
 import MultiSelect from "./MultipleSelect";
 import SingleSelect from "./SingleSelect";
 const Input = () => {
-  const years = Array.from({ length: 2023 - 1990 + 1 }, (_, i) => 1990 + i);
-  const yearsString = years.join(", ");
+  const yearsString = Array.from(
+    { length: 2023 - 1990 + 1 },
+    (_, i) => 1990 + i
+  ).join(", ");
   const yearsObject = yearsString.split(", ");
   const [parameters, setParameters] = useState([]);
   const [countries, setCountries] = useState([]);
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedParameter, setSelectedParameter] = useState("");
   const [selectedCountries, setSelectedCountries] = useState([]);
-
-  useEffect(() => {
-    setParameters(data.data.parameters);
-    setCountries(data.data.countries);
-  }, []);
-
-  const handleCountryChange = (event) => {
-    const value = Array.from(
-      event.target.selectedOptions,
-      (option) => option.value
-    );
-    setSelectedCountries(value);
-  };
+  console.log("Selected Year:", selectedYear);
+  console.log("Selected Parameter:", selectedParameter);
+  console.log("Selected Countries:", selectedCountries);
 
   return (
     <div className="InputClass">

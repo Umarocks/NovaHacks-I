@@ -2,22 +2,16 @@ import * as React from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
-import { useState, useEffect } from "react";
 
 const MultiSelect = (props) => {
-  const { countries, labelFor } = props;
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  const { countries, labelFor, setSelectedOptions, selectedCountries } = props;
   const country = countries;
   const formattedCountries = country.map((country) => ({ name: country }));
   const label = labelFor;
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (newValue) => {
     setSelectedOptions(newValue);
   };
-
-  useEffect(() => {
-    console.log("Selected options:", selectedOptions);
-  }, [selectedOptions]);
 
   return (
     <div className="multiInput">
