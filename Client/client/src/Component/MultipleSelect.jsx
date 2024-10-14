@@ -17,7 +17,11 @@ const MultiSelect = (props) => {
     <div className="multiInput">
       <Stack spacing={3} sx={{ width: 400, zIndex: 1 }}>
         <Autocomplete
-          sx={{ bgcolor: "#3c3c3c" }}
+          sx={{
+            "& .MuiSvgIcon-root": {
+              color: "rgb(25, 118, 210,  0.5)", // Change font color here
+            },
+          }}
           multiple
           id="tags-outlined"
           options={formattedCountries}

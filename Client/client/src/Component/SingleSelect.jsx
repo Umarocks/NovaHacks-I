@@ -16,7 +16,7 @@ const SingleSelect = (props) => {
         disablePortal
         options={country}
         onChange={handleChange}
-        sx={{ width: 400, bgcolor: "#3c3c3c" }}
+        sx={{ width: 400 }}
         renderInput={(params) => (
           <TextField
             {...params}

@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import data from "./data.json";
 import MultiSelect from "./MultipleSelect";
 import SingleSelect from "./SingleSelect";
+import Button from "@mui/material/Button";
 
 const Input = () => {
   const yearsString = Array.from(
@@ -17,11 +18,42 @@ const Input = () => {
   const [selectedParameter, setSelectedParameter] = useState("");
   const [selectedCountries, setSelectedCountries] = useState([]);
 
-  useEffect(() => {
-    console.log("Selected Year:", selectedYear);
-    console.log("Selected Parameter:", selectedParameter);
-    console.log("Selected Countries:", selectedCountries);
-  }, [selectedYear, selectedParameter, selectedCountries]);
+  // useEffect(() => {
+  //   console.log("Selected Year:", selectedYear);
+  //   console.log("Selected Parameter:", selectedParameter);
+  //   console.log("Selected Countries:", selectedCountries);
+  // }, [selectedYear, selectedParameter, selectedCountries]);
+
+  const getData = async () => {
+    const requestData = {
+      territories: selectedCountries.map((country) => country.name),
+      year: selectedYear,
+      parameter: selectedParameter,
+    };
+    console.log("Request Data:", requestData);
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestData),
+    };
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:5000/api/territories",
+        requestOptions
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const responseData = await response.json();
+      console.log("Response Data:", responseData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   return (
     <div className="InputClass">
@@ -53,6 +85,9 @@ const Input = () => {
         />
         ;
       </div>
+      <Button variant="outlined" onClick={getData}>
+        Generate Visualization
+      </Button>
     </div>
   );
 };
