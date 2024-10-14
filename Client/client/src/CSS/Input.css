@@ -1,0 +1,7 @@
+.InputClass {
+  z-index: 1;
+  display: flex;
+  margin-left: 80%;
+  top: 2rem;
+  position: absolute;
+}
