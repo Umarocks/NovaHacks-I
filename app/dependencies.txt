@@ -6,3 +6,4 @@ pip install openai
 pip install tabulate
 pip install flask_cors
 pip install flask
+pip install geopy

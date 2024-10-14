@@ -34,7 +34,7 @@ def get_information_by_territory():
 
         # Use the service function to get information by territory
         response = get_information_by_territory_service(territory, year, parameter)
-
+        print(response)
         # Return the response as JSON
         if isinstance(response, pd.DataFrame):
             return response.to_json(orient='records'), 200, {'Content-Type': 'application/json'}

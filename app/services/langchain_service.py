@@ -4,6 +4,8 @@
 
 import pandas as pd
 from app.models.langchain_model import create_pandas_agent
+from geopy.geocoders import Nominatim
+from geopy.exc import GeocoderTimedOut, GeocoderServiceError
 
 class LLM:
     def __init__(self):
@@ -34,22 +36,26 @@ owid_energy_data = [pd.read_csv("./Datasets/owid-energy-data.csv")]
 lat_long_data = [pd.read_csv("./Datasets/lat-long.csv")]
 lat_long_data[0] = lat_long_data[0][["Alpha-3 code", "Latitude (average)", "Longitude (average)"]]
 
-def get_information_by_territory_service(territory, year, parameter):
-    ### Input format:
-    ### {
-    ###     "territories": ["Afghanistan", "India"],
-    ###     "year": 2019,
-    ###     "parameter": "biofuel_cons_change_twh"
-    ### }
+geolocator = Nominatim(user_agent="langchain_service")
 
-    data_frame = owid_energy_data[0]
-    if territory is not None:
-        data_frame = data_frame[data_frame["Country"].isin(territory)]
-    data_frame = data_frame[data_frame["Year"] == year]
+def get_lat_lon(country_name):
+    location = geolocator.geocode(country_name)
+    if location:
+        return location.latitude, location.longitude
+    else:
+        return 'Country not found'
 
-    # Merge the data with the latitude and longitude data
-    lat_long = lat_long_data[0]
-    data_frame = data_frame.merge(lat_long, how="left", left_on="iso_code", right_on="Alpha-3 code")
-    data_frame = data_frame[["Country", "iso_code", "Latitude (average)", "Longitude (average)", "Alpha-3 code", parameter]]
 
-    return data_frame
+def get_information_by_territory_service( country_name, year, parameter):
+    
+    df=pd.read_csv("./Datasets/owid-energy-data.csv")
+    ans = []
+    for country in country_name:
+        latitude,longitude = get_lat_lon(country)
+        
+        data_frame=df[(df['Year'] == int(year)) & (df['Country'] == country)][parameter]
+        ans.append({"Latitude":latitude,"Longitude":longitude,"Country":country,"Year":year,parameter: str(data_frame.values[0])})
+        
+    print(ans)
+       
+    return  ans
