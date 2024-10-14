@@ -1,0 +1,5 @@
+react-globe.gl@1.0.4
+three
+tailwindcss postcss autoprefixer
+postcss-cli
+csv-parser
