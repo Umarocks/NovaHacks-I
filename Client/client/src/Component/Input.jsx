@@ -31,17 +31,17 @@ const Input = () => {
       parameter: selectedParameter,
     };
     console.log("Request Data:", requestData);
-    const requestOptions = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestData),
-    };
+
     try {
       const response = await fetch(
-        "http://127.0.0.1:5000/api/territories",
-        requestOptions
+        "http://127.0.0.1:5000/api/territories", // Change this URL to the correct one
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestData),
+        }
       );
 
       if (!response.ok) {
