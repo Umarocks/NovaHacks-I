@@ -33,6 +33,8 @@ const Input = () => {
         <MultiSelect
           countries={data.data.countries}
           labelFor={"Select Country"}
+          selected={selectedCountries}
+          setSelectedOptions={setSelectedCountries}
         />
         ;
       </div>
@@ -40,12 +42,20 @@ const Input = () => {
         <SingleSelect
           countries={data.data.parameters}
           labelFor={"Select Parameter"}
+          selected={selectedParameter}
+          setSelected={setSelectedParameter}
         />
         ;
       </div>
       <div className="Year">
         {" "}
-        <SingleSelect countries={yearsObject} labelFor={"Select Year"} />;
+        <SingleSelect
+          countries={yearsObject}
+          labelFor={"Select Year"}
+          selected={selectedYear}
+          setSelected={setSelectedYear}
+        />
+        ;
       </div>
     </div>
   );
