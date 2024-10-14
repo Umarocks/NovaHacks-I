@@ -9,7 +9,7 @@ const MultiSelect = (props) => {
   const formattedCountries = country.map((country) => ({ name: country }));
   const label = labelFor;
 
-  const handleChange = (newValue) => {
+  const handleChange = (event, newValue) => {
     setSelectedOptions(newValue);
   };
 
