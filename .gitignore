@@ -1,3 +1,4 @@
 openai_api_key.py
 *.pyc
 server/langchain-llvm/
+/node_modules/
