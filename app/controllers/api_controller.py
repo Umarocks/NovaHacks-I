@@ -23,7 +23,7 @@ def handle_prompt():
         # Return an error response if something goes wrong
         return jsonify({"error": str(e)}), 500, {'Content-Type': 'application/json'}
     
-@api.route('/territories', methods=['GET'])
+@api.route('/territories', methods=['POST'])
 def get_information_by_territory():
     try:
         # Get the territory from the query parameters
