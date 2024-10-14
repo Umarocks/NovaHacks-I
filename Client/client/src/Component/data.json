@@ -1,8 +1,5 @@
 { "data":{
  "parameters": [
-    "Country",
-    "Year",
-    "iso_code",
     "population",
     "gdp",
     "biofuel_cons_change_pct",

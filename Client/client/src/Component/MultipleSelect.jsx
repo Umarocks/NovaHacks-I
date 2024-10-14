@@ -2,14 +2,12 @@ import * as React from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
-import { palette } from "@mui/system";
 
-const Tags = (countries) => {
-  console.log(countries.countries);
-  const country = countries.countries;
+const MultiSelect = (props) => {
+  const { countries, labelFor } = props;
+  const country = countries;
   const formattedCountries = country.map((country) => ({ name: country }));
-
-  console.log(formattedCountries);
+  const label = labelFor;
   return (
     <div className="multiInput">
       <Stack spacing={3} sx={{ width: 400, zIndex: 1 }}>
@@ -19,13 +17,13 @@ const Tags = (countries) => {
           id="tags-outlined"
           options={formattedCountries}
           getOptionLabel={(options) => options.name}
-          defaultValue={[]}
+          defaultValue={["All"]}
           filterSelectedOptions
           renderInput={(params) => (
             <TextField
               {...params}
-              label="Select Countries"
-              placeholder="Favorites"
+              label={label}
+              placeholder={label}
               sx={{
                 "& .MuiInputBase-input": {
                   color: "white", // Change font color here
@@ -48,4 +46,4 @@ const Tags = (countries) => {
   );
 };
 
-export default Tags;
+export default MultiSelect;
