@@ -54,11 +54,6 @@ const World = (props) => {
         }
         setTimeout(() => {
           setTransitionDuration(4000);
-          setAltitude(
-            dataInput.map((entry) =>
-              Math.max(0.1, Math.sqrt(+entry.parameter) * 7e-5)
-            )
-          );
         }, 3000);
       });
   }, [dataInput]);
@@ -78,14 +73,12 @@ const World = (props) => {
         ((d) => d.properties.ISO_A2 !== "AQ") &&
           ((d) => countryNames.includes(d.properties.NAME))
       )}
-      polygonAltitude={0.6}
+      polygonAltitude={0.4}
       polygonCapColor={() => "rgba(200, 0, 0, 0.6)"}
       polygonSideColor={() => "rgba(0, 100, 0, 0.15)"}
       polygonLabel={({ properties: d }) => `
               <b>${d.ADMIN} (${d.ISO_A2})</b> <br />
-              "Population": <i>${
-                Math.round(+parseFloat(dataInput.parameter) / 1e4) / 1e2
-              }M</i>
+              "Population": <i>${Math.round(+d.POP_EST / 1e4) / 1e2}M</i>
             `}
       polygonsTransitionDuration={transitionDuration}
     />
