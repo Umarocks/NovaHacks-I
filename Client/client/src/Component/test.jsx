@@ -15,7 +15,7 @@ const World = (props) => {
     },
     { parameterName: "CO2" },
   ]);
-
+  const [countryNames, setCountryNames] = useState(["Canada"]);
   useEffect(() => {
     // load data
     setDataInput(props.dataInput);
@@ -25,23 +25,13 @@ const World = (props) => {
         setCountries(countries);
         if (dataInput) {
           const countryNames = dataInput.map((entry) => entry.Country);
-
+          setCountryNames(countryNames);
           // Filter the features to only include those that match a country name in dataInput
           const filteredFeatures = countries.features.filter((feature) => {
             return countryNames.includes(feature.properties.NAME);
           });
           console.log("FILTERED FEATURES");
           console.log(filteredFeatures);
-          filteredFeatures.map((feature) => {
-            console.log("FEATURES");
-            console.log(dataInput.parameter);
-            dataInput.map((entry) => {
-              if (feature.properties.NAME === entry.Country) {
-                feature.properties.POP_EST = entry.parameter;
-                feature.properties.parameterName = dataInput[0].parameterName;
-              }
-            });
-          });
           // Set the filtered features into the state
           setCountries({
             ...countries, // Keep other properties of the GeoJSON
@@ -65,8 +55,9 @@ const World = (props) => {
         setTimeout(() => {
           setTransitionDuration(4000);
           setAltitude(
-            () => (feat) =>
-              Math.max(0.1, Math.sqrt(+feat.properties.POP_EST) * 7e-5)
+            dataInput.map((entry) =>
+              Math.max(0.1, Math.sqrt(+entry.parameter) * 7e-5)
+            )
           );
         }, 3000);
       });
@@ -76,7 +67,6 @@ const World = (props) => {
     // Auto-rotate
     globeEl.current.controls().autoRotate = true;
     globeEl.current.controls().autoRotateSpeed = 0.3;
-
     globeEl.current.pointOfView({ altitude: 4 }, 5000);
   }, []);
 
@@ -85,16 +75,17 @@ const World = (props) => {
       ref={globeEl}
       globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
       polygonsData={countries.features.filter(
-        (d) => d.properties.ISO_A2 !== "AQ"
+        ((d) => d.properties.ISO_A2 !== "AQ") &&
+          ((d) => countryNames.includes(d.properties.NAME))
       )}
-      polygonAltitude={altitude}
+      polygonAltitude={0.6}
       polygonCapColor={() => "rgba(200, 0, 0, 0.6)"}
       polygonSideColor={() => "rgba(0, 100, 0, 0.15)"}
       polygonLabel={({ properties: d }) => `
               <b>${d.ADMIN} (${d.ISO_A2})</b> <br />
-              ${
-                dataInput[Object.keys(dataInput).length - 1].parameterName
-              }: <i>${Math.round(+d.POP_EST / 1e4) / 1e2}M</i>
+              "Population": <i>${
+                Math.round(+parseFloat(dataInput.parameter) / 1e4) / 1e2
+              }M</i>
             `}
       polygonsTransitionDuration={transitionDuration}
     />
