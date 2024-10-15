@@ -64,7 +64,8 @@ def get_information_by_territory_service( country_name, year, parameter):
                  "lon": longitude,
                  "Country": country,
                  "Year": year,
-                 "parameter": result,
+                 "parameter":result,
+                 "parameterName": parameter,
                  "parameter_max": df[parameter].max(),
                  "parameter_min": df[parameter].min()
         })
