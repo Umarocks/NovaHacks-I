@@ -92,7 +92,13 @@ const World = (props) => {
           ((d) => d.properties.ISO_A2 !== "AQ") &&
             ((d) => countryNames.includes(d.properties.NAME))
         )}
-        polygonAltitude={0.4}
+        polygonAltitude={({ properties: d }) =>
+          d.POP_EST > 100000000
+            ? ((d.POP_EST - dataInput[0].parameter_min) /
+                (dataInput[0].parameter_max - dataInput[0].parameter_min)) *
+              10
+            : 0.06
+        }
         polygonCapColor={() => "rgba(0, 100, 0, 0.8)"}
         polygonSideColor={() => "rgba(198, 252, 3, 0.6)"}
         polygonLabel={({ properties: d }) => `

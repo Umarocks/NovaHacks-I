@@ -21,7 +21,6 @@ const GlobeReact = () => {
       .then((countries) => {
         setCountries(countries);
       });
-    console.log("USE EFFECT GLOBE REACT ");
   }, [dataInput]);
 
   return (
@@ -29,8 +28,6 @@ const GlobeReact = () => {
       <ChatIcon isChatIcon={isChatIcon} setIsChatIcon={setIsChatIcon} />
       {!isChatIcon && <ChatInput />}
       <Input dataInput={dataInput} setDataInput={setDataInput} />
-
-      {console.log("Data Input:", dataInput)}
       <World dataInput2={dataInput} />
     </div>
   );
