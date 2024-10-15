@@ -18,7 +18,7 @@ const World = (props) => {
   const [countryNames, setCountryNames] = useState(["Canada"]);
   useEffect(() => {
     // load data
-    setDataInput(props.dataInput);
+    setDataInput(props.dataInput2);
     fetch("/datasets/ne_110m_admin_0_countries.geojson")
       .then((res) => res.json())
       .then((countries) => {
@@ -30,15 +30,11 @@ const World = (props) => {
           const filteredFeatures = countries.features.filter((feature) => {
             return countryNames.includes(feature.properties.NAME);
           });
-          console.log("FILTERED FEATURES");
-          console.log(filteredFeatures);
           // Set the filtered features into the state
           setCountries({
             ...countries, // Keep other properties of the GeoJSON
             features: filteredFeatures, // Replace features with the filtered ones
           });
-          console.log("NEW COUNTRIES");
-          console.log(countries);
           //   const updatedFeatures = countries.features.map((feature) => {
           //     if (feature.properties.BRK_NAME === dataInput.Country) {
           //       // Add new data to the feature's properties
@@ -51,19 +47,22 @@ const World = (props) => {
           //     ...countries,
           //     features: updatedFeatures,
           //   });
+          // a
         }
         setTimeout(() => {
-          setTransitionDuration(4000);
+          setTransitionDuration(2000);
         }, 3000);
       });
-  }, [dataInput]);
-
+    console.log("Data Input:", dataInput);
+    console.log("USE EFFECT TEST");
+  }, [props.dataInput2]);
+  // afaf
   useEffect(() => {
     // Auto-rotate
     globeEl.current.controls().autoRotate = true;
     globeEl.current.controls().autoRotateSpeed = 0.3;
     globeEl.current.pointOfView({ altitude: 4 }, 5000);
-  }, []);
+  }, [props.dataInput2]);
 
   return (
     <Globe

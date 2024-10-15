@@ -19,19 +19,8 @@ const GlobeReact = () => {
       .then((res) => res.json())
       .then((countries) => {
         setCountries(countries);
-
-        setTimeout(() => {
-          setTransitionDuration(4000);
-          setAltitude(
-            () => (feat) =>
-              // Math.max(0.1, Math.sqrt(+feat.properties.POP_EST) * 7e-5)
-              Math.max(
-                0.1,
-                Math.sqrt(parseFloat(+feat.properties.parameter)) * 3000
-              )
-          );
-        }, 3000);
       });
+    console.log("USE EFFECT GLOBE REACT ");
   }, [dataInput]);
 
   return (
@@ -40,7 +29,8 @@ const GlobeReact = () => {
       {!isChatIcon && <ChatInput />}
       <Input dataInput={dataInput} setDataInput={setDataInput} />
       {/* <World /> */}
-      <World dataInput={dataInput} />
+      {console.log("Data Input:", dataInput)}
+      <World dataInput2={dataInput} />
     </div>
   );
 };
