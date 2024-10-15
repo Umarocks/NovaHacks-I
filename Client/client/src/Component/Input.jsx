@@ -9,12 +9,13 @@ import Button from "@mui/material/Button";
 const Input = (props) => {
   const yearsString = Array.from(
     { length: 2023 - 1990 + 1 },
-    (_, i) => 1990 + i
+    (_, i) => 2000 + i
   ).join(", ");
   const yearsObject = yearsString.split(", ");
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedParameter, setSelectedParameter] = useState("");
   const [selectedCountries, setSelectedCountries] = useState([]);
+  var counter = 0;
   const getData = async () => {
     const requestData = {
       territories: selectedCountries.map((country) => country.name),
@@ -42,6 +43,11 @@ const Input = (props) => {
       const responseData = await response.json();
       props.setDataInput(responseData);
       console.log("Response Data:", responseData);
+
+      if (counter === 0) {
+        counter++;
+        getData();
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     }

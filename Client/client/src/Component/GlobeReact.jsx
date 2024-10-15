@@ -5,6 +5,7 @@ import ChatIcon from "./ChatIcon";
 import ChatInput from "./ChatInput";
 import Input from "./Input";
 import World from "./test";
+
 const GlobeReact = () => {
   const [isChatIcon, setIsChatIcon] = useState(true);
   const [dataInput, setDataInput] = useState();
@@ -28,7 +29,7 @@ const GlobeReact = () => {
       <ChatIcon isChatIcon={isChatIcon} setIsChatIcon={setIsChatIcon} />
       {!isChatIcon && <ChatInput />}
       <Input dataInput={dataInput} setDataInput={setDataInput} />
-      {/* <World /> */}
+
       {console.log("Data Input:", dataInput)}
       <World dataInput2={dataInput} />
     </div>
