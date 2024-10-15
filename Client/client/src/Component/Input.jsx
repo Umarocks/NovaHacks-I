@@ -6,24 +6,15 @@ import MultiSelect from "./MultipleSelect";
 import SingleSelect from "./SingleSelect";
 import Button from "@mui/material/Button";
 
-const Input = () => {
+const Input = (props) => {
   const yearsString = Array.from(
     { length: 2023 - 1990 + 1 },
     (_, i) => 1990 + i
   ).join(", ");
   const yearsObject = yearsString.split(", ");
-  // const [parameters, setParameters] = useState([]);
-  // const [countries, setCountries] = useState([]);
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedParameter, setSelectedParameter] = useState("");
   const [selectedCountries, setSelectedCountries] = useState([]);
-
-  // useEffect(() => {
-  //   console.log("Selected Year:", selectedYear);
-  //   console.log("Selected Parameter:", selectedParameter);
-  //   console.log("Selected Countries:", selectedCountries);
-  // }, [selectedYear, selectedParameter, selectedCountries]);
-
   const getData = async () => {
     const requestData = {
       territories: selectedCountries.map((country) => country.name),
@@ -49,6 +40,7 @@ const Input = () => {
       }
 
       const responseData = await response.json();
+      props.setDataInput(responseData);
       console.log("Response Data:", responseData);
     } catch (error) {
       console.error("Error fetching data:", error);

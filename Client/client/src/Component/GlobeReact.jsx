@@ -4,33 +4,44 @@ import "../CSS/GlobeReact.css";
 import ChatIcon from "./ChatIcon";
 import ChatInput from "./ChatInput";
 import Input from "./Input";
-
+import World from "./test";
 const GlobeReact = () => {
   const [isChatIcon, setIsChatIcon] = useState(true);
+  const [dataInput, setDataInput] = useState();
+  const [countries, setCountries] = useState({ features: [] });
+  const [altitude, setAltitude] = useState(0.1);
+  const [transitionDuration, setTransitionDuration] = useState(1000);
   const globeEl = useRef();
 
   useEffect(() => {
-    // Auto-rotate
-    globeEl.current.controls().autoRotate = true;
-    globeEl.current.controls().autoRotateSpeed = 0.6;
+    // load data
+    fetch("../datasets/ne_110m_admin_0_countries.geojson")
+      .then((res) => res.json())
+      .then((countries) => {
+        setCountries(countries);
 
-    globeEl.current.pointOfView({ altitude: 2.5 }, 5000);
-  }, []);
+        setTimeout(() => {
+          setTransitionDuration(4000);
+          setAltitude(
+            () => (feat) =>
+              // Math.max(0.1, Math.sqrt(+feat.properties.POP_EST) * 7e-5)
+              Math.max(
+                0.1,
+                Math.sqrt(parseFloat(+feat.properties.parameter)) * 3000
+              )
+          );
+        }, 3000);
+      });
+  }, [dataInput]);
+
   return (
     <div className="Globe">
       <ChatIcon isChatIcon={isChatIcon} setIsChatIcon={setIsChatIcon} />
       {!isChatIcon && <ChatInput />}
-      <Input />
-      {
-        <Globe
-          ref={globeEl}
-          globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
-          backgroundImageUrl={
-            "//unpkg.com/three-globe/example/img/night-sky.png"
-          }
-        />
-      }
-      ;
+      <Input dataInput={dataInput} setDataInput={setDataInput} />
+      {/* <World /> */}
+      {console.log("Data Input:", dataInput)}
+      <World dataInput={dataInput} />
     </div>
   );
 };
