@@ -9,7 +9,7 @@ const World = (props) => {
   const [altitude, setAltitude] = useState(0.1);
   const [transitionDuration, setTransitionDuration] = useState(1000);
   const dataInput = props.dataInput;
-  const [geoJsonData, setGeoJsonData] = useState(null);
+  const [filteredCountries2, setFilteredCountries2] = useState([]);
 
   useEffect(() => {
     // Load data
@@ -17,34 +17,56 @@ const World = (props) => {
       .then((res) => res.json())
       .then((countries) => {
         setCountries(countries);
-        console.log(countries);
         setTimeout(() => {
           setTransitionDuration(4000);
         }, 3000);
       });
 
-    // Set altitude based on population estimate
-    setAltitude(() => (feat) => {
-      return Math.max(0.1, Math.sqrt(+feat.properties.POP_EST) * 7e-5);
-    });
+    if (dataInput) {
+      // Step 1: Convert parameter values to numbers
+      const parameters = dataInput.map((country) => +country.parameter); // Convert string to number
 
-    // Log each param in dataInput
-    if (Array.isArray(dataInput)) {
-      dataInput.forEach((item) => {
-        if (item && item.param) {
-          console.log(item.param);
-        }
+      // Step 2: Find min and max of parameters
+      const minValue = Math.min(...parameters);
+      const maxValue = Math.max(...parameters);
+
+      // Step 3: Normalize the parameter values
+      const altitudeSetting = dataInput.map((country) => {
+        const countryName = country.Country; // Access the country name
+        const parameterValue = +country.parameter; // Convert string to number
+
+        // Apply min-max normalization
+        const normalizedValue =
+          ((parameterValue - minValue + 50) / (maxValue - minValue)) * 7e-2;
+        return { normalizedValue: normalizedValue, countryName: countryName }; // Adding normalized value to each country object
       });
+      // This will now contain the normalized values
+      setAltitude(altitudeSetting);
     }
 
     // Filter countries based on dataInput
-    const filteredCountries = dataInput.map((country) => {
-      const countryName = country.Country;
-      return countries.features.filter(
-        (d) => d.properties.BRK_NAME === countryName
-      );
-    });
-    console.log(filteredCountries);
+    if (dataInput) {
+      const filteredCountries = dataInput.map((country) => {
+        const countryName = country.Country;
+        console.log("FILTERING");
+        console.log(
+          countries.features.filter(
+            (d) => d.properties.BRK_NAME === countryName
+          )
+        );
+        return countries.features.filter(
+          (d) => d.properties.BRK_NAME === countryName
+        );
+      });
+      const filCountAns = {
+        type: "FeatureCollection",
+        features: filteredCountries,
+        bbox: [-180, -90, 180, 83.64513],
+      };
+      console.log("Filtered Countries:", filCountAns);
+      setFilteredCountries2(filCountAns);
+    }
+    console.log("Altitude Setting:", altitude);
   }, [dataInput]);
 
   useEffect(() => {
@@ -61,15 +83,15 @@ const World = (props) => {
         ref={globeEl}
         globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
         backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
-        polygonsData={countries.features}
-        polygonAltitude={altitude}
+        polygonsData={[filteredCountries2]}
+        polygonAltitude={altitude.normalizedValue}
         polygonCapColor={() => "rgba(200, 0, 0, 0.6)"}
         polygonSideColor={() => "rgba(255, 255, 255, 0.15)"}
         polygonStrokeColor={() => "#111"}
-        polygonLabel={({ properties: d }) => `
-          <b>${d.ADMIN} (${d.ISO_A2})</b> <br />
-          Population: ${d.POP_EST}
-        `}
+        // polygonLabel={({ properties: d }) => `
+        //   <b>${d.ADMIN} (${d.ISO_A2})</b> <br />
+        //   Population: ${d.POP_EST}
+        // `}
         transitionDuration={transitionDuration}
       />
     </>
