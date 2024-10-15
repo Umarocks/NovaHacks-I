@@ -1,6 +1,7 @@
 import React from "react";
 import Globe from "react-globe.gl";
 import ReactDOM from "react-dom";
+import Clouds from "./Clouds";
 const { useState, useEffect, useRef } = React;
 
 const World = (props) => {
@@ -9,6 +10,8 @@ const World = (props) => {
   const [altitude, setAltitude] = useState(0.1);
   const [transitionDuration, setTransitionDuration] = useState(1000);
   const [paramName, setParamName] = useState("Population");
+  const [showClouds, setShowClouds] = useState(false);
+  const globeE2 = useRef();
   const [dataInput, setDataInput] = useState([
     {
       Country: "Canada",
@@ -27,15 +30,6 @@ const World = (props) => {
         if (dataInput) {
           const countryNames = dataInput.map((entry) => entry.Country);
           setCountryNames(countryNames);
-          // Filter the features to only include those that match a country name in dataInput
-          //   const filteredFeatures = countries.features.filter((feature) => {
-          //     return countryNames.includes(feature.properties.NAME);
-          //   });
-          //   // Set the filtered features into the state
-          //   setCountries({
-          //     ...countries, // Keep other properties of the GeoJSON
-          //     features: filteredFeatures, // Replace features with the filtered ones
-          //   });
           const filteredFeatures = countries.features.filter((feature) => {
             return countryNames.includes(feature.properties.NAME);
           });
@@ -68,6 +62,7 @@ const World = (props) => {
         setTimeout(() => {
           setTransitionDuration(2000);
         }, 3000);
+        await new Promise((resolve) => setTimeout(resolve, 5000));
       } catch (error) {
         console.error("Error fetching countries:", error);
       }
@@ -83,7 +78,7 @@ const World = (props) => {
     globeEl.current.controls().autoRotate = true;
     globeEl.current.controls().autoRotateSpeed = 0.3;
     globeEl.current.pointOfView({ altitude: 4 }, 5000);
-  }, [props.dataInput2]);
+  }, []);
   {
     console.log("rendering globe");
   }
@@ -91,21 +86,33 @@ const World = (props) => {
     <>
       <Globe
         ref={globeEl}
-        globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
+        globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
+        backgroundImageUrl={"//unpkg.com/three-globe/example/img/night-sky.png"}
         polygonsData={countries.features.filter(
           ((d) => d.properties.ISO_A2 !== "AQ") &&
             ((d) => countryNames.includes(d.properties.NAME))
         )}
         polygonAltitude={0.4}
-        polygonCapColor={() => "rgba(200, 0, 0, 0.6)"}
-        polygonSideColor={() => "rgba(0, 100, 0, 0.15)"}
+        polygonCapColor={() => "rgba(0, 100, 0, 0.8)"}
+        polygonSideColor={() => "rgba(198, 252, 3, 0.6)"}
         polygonLabel={({ properties: d }) => `
               <b>${d.ADMIN} (${d.ISO_A2})</b> <br />
               <i>${paramName}": "${Math.round(+d.POP_EST)}</i>
             `}
         polygonsTransitionDuration={transitionDuration}
       />
-      `${console.log("rendering globe2")}`;
+      `${console.log("DATA INPUT AFTER RENDER")}`; $
+      {console.log(props.dataInput2)};
+      <label className="switch">
+        <input
+          type="checkbox"
+          checked={showClouds}
+          onChange={() => setShowClouds((prev) => !prev)}
+        />
+        <span className="slider"></span>
+              
+      </label>
+      <Clouds globeRef={globeEl} showClouds={showClouds} />
     </>
   );
 };
