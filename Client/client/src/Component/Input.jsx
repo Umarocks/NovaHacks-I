@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 
 const Input = (props) => {
   const yearsString = Array.from(
-    { length: 2023 - 1990 + 1 },
+    { length: 2023 - 2000 + 1 },
     (_, i) => 2000 + i
   ).join(", ");
   const yearsObject = yearsString.split(", ");
