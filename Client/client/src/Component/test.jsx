@@ -104,13 +104,16 @@ const World = (props) => {
       `${console.log("DATA INPUT AFTER RENDER")}`; $
       {console.log(props.dataInput2)};
       <label className="switch">
-        <input
-          type="checkbox"
-          checked={showClouds}
-          onChange={() => setShowClouds((prev) => !prev)}
-        />
-        <span className="slider"></span>
-              
+        <b>Show Clouds</b>
+
+        <div className="spanSlider">
+          <input
+            type="checkbox"
+            checked={showClouds}
+            onChange={() => setShowClouds((prev) => !prev)}
+          />
+          <span className="slider"></span>
+        </div>
       </label>
       <Clouds globeRef={globeEl} showClouds={showClouds} />
     </>
