@@ -54,8 +54,8 @@ def get_information_by_territory_service( country_name, year, parameter):
         latitude,longitude = get_lat_lon(country)
         
         data_frame=df[(df['Year'] == int(year)) & (df['Country'] == country)][parameter]
-        ans.append({"lat":latitude,"lon":longitude,"Country":country,"Year":year,"parameter": str(data_frame.values[0])})
-        
+        ans.append({"lat":latitude,"lon":longitude,"Country":country,"Year":year,"parameter": int(data_frame.values[0]),})
+    ans.append({"parameterName:":parameter});    
     print(ans)
        
     return  ans

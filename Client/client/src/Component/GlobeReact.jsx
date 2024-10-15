@@ -40,7 +40,6 @@ const GlobeReact = () => {
       {!isChatIcon && <ChatInput />}
       <Input dataInput={dataInput} setDataInput={setDataInput} />
       {/* <World /> */}
-      {console.log("Data Input:", dataInput)}
       <World dataInput={dataInput} />
     </div>
   );
