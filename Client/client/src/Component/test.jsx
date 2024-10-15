@@ -2,8 +2,8 @@ import React from "react";
 import Globe from "react-globe.gl";
 import ReactDOM from "react-dom";
 import Clouds from "./Clouds";
+import "../CSS/test.css";
 const { useState, useEffect, useRef } = React;
-
 const World = (props) => {
   const globeEl = useRef();
   const [countries, setCountries] = useState({ features: [] });
@@ -104,14 +104,31 @@ const World = (props) => {
       `${console.log("DATA INPUT AFTER RENDER")}`; $
       {console.log(props.dataInput2)};
       <label className="switch">
-        <input
-          type="checkbox"
-          checked={showClouds}
-          onChange={() => setShowClouds((prev) => !prev)}
-        />
-        <span className="slider"></span>
-              
+        <b>Show Clouds</b>
+
+        <div className="spanSlider">
+          <input
+            type="checkbox"
+            checked={showClouds}
+            onChange={() => setShowClouds((prev) => !prev)}
+          />
+          <span className="slider"></span>
+        </div>
       </label>
+      <div className="Day">
+        <label className="switch">
+          <b>Show Clouds</b>
+
+          <div className="spanSlider">
+            <input
+              type="checkbox"
+              checked={showClouds}
+              onChange={() => setShowClouds((prev) => !prev)}
+            />
+            <span className="slider"></span>
+          </div>
+        </label>
+      </div>
       <Clouds globeRef={globeEl} showClouds={showClouds} />
     </>
   );
