@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "../CSS/ChatInput.css";
 
+import CircularIndeterminate from "./CircularIndeterminate";
 function ChatInput() {
   const [triggerApiCall, setTriggerApiCall] = useState(false);
   const [data, setData] = useState(null);
   const [inputValue, setInputValue] = useState("");
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (triggerApiCall) {
       const postData = {
@@ -19,10 +20,11 @@ function ChatInput() {
         },
         body: JSON.stringify(postData),
       };
-
+      setLoading(true);
       fetch("http://127.0.0.1:5000/api/prompt", requestOptions)
         .then((response) => response.json())
         .then((data) => {
+          setLoading(false);
           console.log(data);
           setData(data);
           setTriggerApiCall(false); // Reset the trigger
@@ -44,40 +46,7 @@ function ChatInput() {
 
   return (
     <div className="chatInput">
-      <p>HELLO</p>
       <div className="messageBox">
-        <div className="fileUploadWrapper">
-          <label htmlFor="file">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 337 337"
-            >
-              <circle
-                strokeWidth="20"
-                stroke="#6c6c6c"
-                fill="none"
-                r="158.5"
-                cy="168.5"
-                cx="168.5"
-              ></circle>
-              <path
-                strokeLinecap="round"
-                strokeWidth="25"
-                stroke="#6c6c6c"
-                d="M167.759 79V259"
-              ></path>
-              <path
-                strokeLinecap="round"
-                strokeWidth="25"
-                stroke="#6c6c6c"
-                d="M79 167.138H259"
-              ></path>
-            </svg>
-            <span className="tooltip">Add an image</span>
-          </label>
-          <input type="file" id="file" name="file" />
-        </div>
         <input
           required=""
           placeholder="Message..."
@@ -105,6 +74,9 @@ function ChatInput() {
             ></path>
           </svg>
         </button>
+        <div className="fileUploadWrapper">
+          {loading && <CircularIndeterminate />}
+        </div>
       </div>
       {data != null && (
         <div className="ResponseClass">
