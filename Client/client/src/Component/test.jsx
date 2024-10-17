@@ -82,8 +82,8 @@ const World = (props) => {
         ref={globeEl}
         globeImageUrl={
           showDayLight
-            ? "//unpkg.com/three-globe/example/img/earth-night.jpg"
-            : "//unpkg.com/three-globe/example/img/earth-day.jpg"
+            ? "//unpkg.com/three-globe/example/img/earth-day.jpg"
+            : "//unpkg.com/three-globe/example/img/earth-night.jpg"
         }
         backgroundImageUrl={"//unpkg.com/three-globe/example/img/night-sky.png"}
         polygonsData={countries.features.filter(
