@@ -1,15 +1,20 @@
 # EcoSphere 3D
 
 ## Inspiration
+
 Our project is dedicated to social good. We believe being informed is the most important step towards sustainability. Our team has frequently used the [OWIS database](https://ourworldindata.org/energy) climate database for accurate information, but soon realized that this database would be improved with a powerful 3D visualization tool. We also wanted to leverage the power of AI and large language models. That's why we invented EcoSphere 3D!
 
+[![EcoSphere 3D Video](https://img.youtube.com/vi/nmEj9VwVvLY/0.jpg)](https://www.youtube.com/watch?v=nmEj9VwVvLY)
+
 ## What it does
+
 - EcoSphere 3D visualizes data from the [OWIS database](https://ourworldindata.org/energy).
 - Interact with an intelligent AI LLM to instantly parse and find information in this database through a process known as the `AgentExecutor`.
 - Immerse yourself in the real-time 3D globe graphics powered by node.js and 3js.
 - Find sustainability information over time and track hundreds of metrics such as energy usage, biofuel increase per capita, and many more!
 
 ## How we built it
+
 Our project uses Node.js and React for the frontend.
 We rely on the following javascript libraries to aid in the 3D rendering process.
 
@@ -22,11 +27,14 @@ npm install csv-parser
 npm install @mui/material @emotion/react @emotion/styled
 npm install @mui/icons-material
 npm install geojson
+npm install d3
 ```
 
 Our project uses Python for the server-side backend.
 We use CSV parsing libraries `pandas` and `numpy`.
 We also use the Python libraries `langchain` and `OpenAI` to invoke and train our LLM.
+![alt text](image.png)
+make a new file named openai_api_key as above make a same name function and paste it for LLM to work in real time.
 
 ## Challenges we ran into
 
@@ -40,20 +48,20 @@ Here is an example output of that process run on the prompt: `Which country has 
 
 ```python
 > Entering new AgentExecutor chain...
-Thought: First, we need to filter the dataframe to only include data from 2019. Then we can sort the dataframe by the biofuel consumption change percentage in descending order. 
+Thought: First, we need to filter the dataframe to only include data from 2019. Then we can sort the dataframe by the biofuel consumption change percentage in descending order.
 Action: python_repl_ast
 Action Input: df[df['Year']==2019].sort_values(by='biofuel_cons_change_pct', ascending=False)              Country  Year iso_code   population  ...  wind_consumption  wind_electricity  wind_share_elec  wind_share_energy
-19910         Ukraine  2019      UKR   44211100.0  ...             5.325              2.24            1.465              0.556      
-4981          Croatia  2019      HRV    4129749.0  ...             3.868              1.47           11.611              4.037      
-9339        Indonesia  2019      IDN  269582880.0  ...             1.276              0.48            0.162              0.056      
-6299          Estonia  2019      EST    1327039.0  ...             1.811              0.69            9.067              2.885      
-11484        Malaysia  2019      MYS   32804024.0  ...             0.000              0.00            0.000              0.000      
-...               ...   ...      ...          ...  ...               ...               ...              ...                ...      
-20892         Vietnam  2019      VNM   95776712.0  ...             1.903              0.72            0.317              0.158      
-21083  Western Sahara  2019      ESH     544883.0  ...               NaN              0.00              NaN                NaN      
-21248           Yemen  2019      YEM   31546694.0  ...               NaN              0.00            0.000                NaN      
-21463          Zambia  2019      ZMB   18380478.0  ...               NaN              0.00            0.000                NaN      
-21586        Zimbabwe  2019      ZWE   15354606.0  ...               NaN              0.00            0.000                NaN      
+19910         Ukraine  2019      UKR   44211100.0  ...             5.325              2.24            1.465              0.556
+4981          Croatia  2019      HRV    4129749.0  ...             3.868              1.47           11.611              4.037
+9339        Indonesia  2019      IDN  269582880.0  ...             1.276              0.48            0.162              0.056
+6299          Estonia  2019      EST    1327039.0  ...             1.811              0.69            9.067              2.885
+11484        Malaysia  2019      MYS   32804024.0  ...             0.000              0.00            0.000              0.000
+...               ...   ...      ...          ...  ...               ...               ...              ...                ...
+20892         Vietnam  2019      VNM   95776712.0  ...             1.903              0.72            0.317              0.158
+21083  Western Sahara  2019      ESH     544883.0  ...               NaN              0.00              NaN                NaN
+21248           Yemen  2019      YEM   31546694.0  ...               NaN              0.00            0.000                NaN
+21463          Zambia  2019      ZMB   18380478.0  ...               NaN              0.00            0.000                NaN
+21586        Zimbabwe  2019      ZWE   15354606.0  ...               NaN              0.00            0.000                NaN
 
 [221 rows x 101 columns] Now we can see that Ukraine had the highest biofuel consumption change percentage in 2019.
 ```
@@ -87,17 +95,17 @@ Overall, our goal with this project is to create a comprehensive platform where 
 1. Clone the repo `git clone https://github.com/Umarocks/NovaHacks-I`
 
 2. Activate the python venv on the command line. </br>
-    Windows: `./server/langchain-llvm/Scripts/activate` </br>
-    Linux: `source venv ./server/langchain-llvm/bin/activate`
+   Windows: `./server/langchain-llvm/Scripts/activate` </br>
+   Linux: `source venv ./server/langchain-llvm/bin/activate`
 
 3. Edit the `open_api_key.py` file on the toplevel directory:
-Please contact me for the key.
+   Please contact me for the key.
 
 ```python
 def get_keys():
     return "<YOUR API KEY HERE>"
 ```
 
-4. Install all needed dependencies from the `dependencies.txt` file.
+4. Install all needed dependencies from the `dependencies.txt` file in NovaHacks-I/app/.
 
 5. Execute the application `python ./server/langchain-llvm/main.py`
