@@ -138,7 +138,6 @@ const World = (props) => {
   useEffect(() => {
     // Auto-rotate
     setGlobeRadius(globeEl.current.getGlobeRadius());
-    globeEl.current.controls().autoRotate = false;
     globeEl.current.controls().autoRotateSpeed = 0.3;
     globeEl.current.pointOfView({ altitude: 2.5 }, 5000);
   }, []);
@@ -384,7 +383,10 @@ const World = (props) => {
     setAirDataParam(AirData);
     console.log("EFFECT");
   }, [COUNTRY]);
-  useEffect(() => {}, counter);
+
+  // AUTO ROTATE
+  const [autoRotate, setAutoRotate] = useState(false);
+
   return (
     <>
       <Globe
@@ -459,10 +461,10 @@ const World = (props) => {
         <div className="spanSlider">
           <input
             type="checkbox"
-            checked={globeEl.current.controls().autoRotate}
+            checked={autoRotate}
             onChange={() => {
-              globeEl.current.controls().autoRotate =
-                !globeEl.current.controls().autoRotate;
+              setAutoRotate((prev) => !prev);
+              globeEl.current.controls().autoRotate = !autoRotate;
             }}
           />
           <span className="slider"></span>
