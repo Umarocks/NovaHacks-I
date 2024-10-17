@@ -85,9 +85,10 @@ const World = (props) => {
   const commonParams = {
     ref: globeEl,
     globeImageUrl: showDayLight
-      ? "//unpkg.com/three-globe/example/img/earth-day.jpg"
+      ? "//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
       : "//unpkg.com/three-globe/example/img/earth-night.jpg",
     backgroundImageUrl: "//unpkg.com/three-globe/example/img/night-sky.png",
+    bumpImageUrl: "//unpkg.com/three-globe/example/img/earth-topology.png",
     polygonsData: countries.features.filter(
       (d) =>
         d.properties.ISO_A2 !== "AQ" && countryNames.includes(d.properties.NAME)
@@ -195,9 +196,47 @@ const World = (props) => {
     objectThreeObject: satObject,
   };
 
+  //Submarine Cables
+
+  const [cablePaths, setCablePaths] = useState([]);
+  const [showCables, setShowCables] = useState(false);
+  const [cableParams, setCableParams] = useState({});
+  useEffect(() => {
+    fetch(
+      "https://raw.githubusercontent.com/curran/www.submarinecablemap.com/master/web/public/api/v3/cable/cable-geo.json"
+    )
+      .then((r) => r.json())
+      .then((cablesGeo) => {
+        let cablePaths = [];
+        cablesGeo.features.forEach(({ geometry, properties }) => {
+          geometry.coordinates.forEach((coords) =>
+            cablePaths.push({ coords, properties })
+          );
+        });
+
+        // setCablePaths(cablePaths);
+        if (!showCables) {
+          setCablePaths(cablePaths);
+        } else {
+          setCablePaths();
+        }
+      });
+    const cableParams = setCableParams({
+      pathsData: cablePaths,
+      pathPoints: "coords",
+      pathPointLat: (p) => p[1],
+      pathPointLng: (p) => p[0],
+      pathColor: (path) => path.properties.color,
+      pathLabel: (path) => path.properties.name,
+      pathDashLength: 0.1,
+      pathDashGap: 0.008,
+      pathDashAnimateTime: 13000,
+    });
+  }, [showCables]);
+
   return (
     <>
-      <Globe {...commonParams} {...satelliteParams} />
+      <Globe {...commonParams} {...satelliteParams} {...cableParams} />
       <label className="switch">
         <p>Show Clouds</p>
 
@@ -229,6 +268,19 @@ const World = (props) => {
             checked={showSatellites}
             onChange={() => {
               setShowSatellites((prev) => !prev);
+            }}
+          />
+          <span className="slider"></span>
+        </div>
+      </label>
+      <label className="Cableswitch">
+        <p>Submarine Cables</p>
+        <div className="spanSlider">
+          <input
+            type="checkbox"
+            checked={showCables}
+            onChange={() => {
+              setShowCables((prev) => !prev);
             }}
           />
           <span className="slider"></span>

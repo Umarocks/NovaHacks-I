@@ -61,7 +61,7 @@ input:checked + .slider:before {
 
 .Dayswitch {
   position: fixed;
-  bottom: 6rem;
+  bottom: 80px;
   right: 36px;
   z-index: 1;
   color: aliceblue;
@@ -82,7 +82,7 @@ input:checked + .slider:before {
 
 .Satelliteswitch {
   position: fixed;
-  bottom: 11rem;
+  bottom: 145px;
   right: 0.8rem;
   z-index: 1;
   color: aliceblue;
@@ -112,4 +112,25 @@ input:checked + .slider:before {
   bottom: 10px;
   left: 10px;
   z-index: 1;
+}
+
+.Cableswitch {
+  position: fixed;
+  bottom: 210px;
+  right: 10px;
+  z-index: 1;
+  color: aliceblue;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Cableswitch input {
+  display: none;
+  z-index: 1;
+}
+
+.Cableswitch p {
+  padding-left: 0.5rem;
+  padding-bottom: 0.2rem;
 }
