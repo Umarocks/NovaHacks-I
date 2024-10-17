@@ -17,11 +17,7 @@ const World = (props) => {
   const [paramName, setParamName] = useState("Population");
   const [showClouds, setShowClouds] = useState(false);
   const [showDayLight, setShowDayLight] = useState(false);
-  const [dataInput, setDataInput] = useState([
-    // {
-    //   Country: "Canada",
-    // },
-  ]);
+  const [dataInput, setDataInput] = useState([]);
   const [countryNames, setCountryNames] = useState(["Canada"]);
   const [showSatellites, setShowSatellites] = useState(false);
 
@@ -65,7 +61,7 @@ const World = (props) => {
           setParamName(dataInput[0].parameterName);
         }
         setTimeout(() => {
-          setTransitionDuration(2000);
+          setTransitionDuration(0);
         }, 3000);
         await new Promise((resolve) => setTimeout(resolve, 5000));
       } catch (error) {
@@ -236,6 +232,7 @@ const World = (props) => {
           <span className="slider"></span>
         </div>
       </label>
+      {showSatellites && <div id="time-log">{time.toString()}</div>}
       <Clouds globeRef={globeEl} showClouds={showClouds} />
     </>
   );

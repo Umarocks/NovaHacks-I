@@ -100,3 +100,16 @@ input:checked + .slider:before {
   padding-left: 0.5rem;
   padding-bottom: 0.2rem;
 }
+
+#time-log {
+  position: absolute;
+  font-size: 12px;
+  font-family: sans-serif;
+  padding: 5px;
+  border-radius: 3px;
+  background-color: rgba(200, 200, 200, 0.1);
+  color: lavender;
+  bottom: 10px;
+  left: 10px;
+  z-index: 1;
+}
