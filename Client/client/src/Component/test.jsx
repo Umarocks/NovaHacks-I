@@ -12,6 +12,8 @@ const TIME_STEP = 3 * 10; // per frame
 const World = (props) => {
   const globeEl = useRef();
 
+  // Main function to fetch countries and update the GeoJSON  For polygon data
+
   const [countries, setCountries] = useState({ features: [] });
   const [transitionDuration, setTransitionDuration] = useState(1000);
   const [paramName, setParamName] = useState("Population");
@@ -61,7 +63,7 @@ const World = (props) => {
           setParamName(dataInput[0].parameterName);
         }
         setTimeout(() => {
-          setTransitionDuration(0);
+          setTransitionDuration(500);
         }, 3000);
         await new Promise((resolve) => setTimeout(resolve, 5000));
       } catch (error) {
