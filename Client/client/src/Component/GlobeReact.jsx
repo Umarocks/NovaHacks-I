@@ -1,11 +1,9 @@
-import Globe from "react-globe.gl";
 import React, { useState, useEffect, useRef } from "react";
 import "../CSS/GlobeReact.css";
 import ChatIcon from "./ChatIcon";
 import ChatInput from "./ChatInput";
 import Input from "./Input";
 import World from "./test";
-
 const GlobeReact = () => {
   const [isChatIcon, setIsChatIcon] = useState(true);
   const [dataInput, setDataInput] = useState();
@@ -29,6 +27,7 @@ const GlobeReact = () => {
       {!isChatIcon && <ChatInput />}
       <Input dataInput={dataInput} setDataInput={setDataInput} />
       <World dataInput2={dataInput} />
+      {/* <Sat /> */}
     </div>
   );
 };
