@@ -3,8 +3,7 @@
 ## Inspiration
 
 Our project is dedicated to social good. We believe being informed is the most important step towards sustainability. Our team has frequently used the [OWIS database](https://ourworldindata.org/energy) climate database for accurate information, but soon realized that this database would be improved with a powerful 3D visualization tool. We also wanted to leverage the power of AI and large language models. That's why we invented EcoSphere 3D!
-
-[![EcoSphere 3D Video](https://img.youtube.com/vi/nmEj9VwVvLY/0.jpg)](https://www.youtube.com/watch?v=nmEj9VwVvLY)
+<video controls src="https://www.youtube.com/watch?v=nmEj9VwVvLY" title="EcoSphere 360"></video>
 
 ## What it does
 
