@@ -13,7 +13,7 @@ import indexBy from "index-array-by";
 const { useState, useEffect, useRef, useMemo } = React;
 const EARTH_RADIUS_KM = 6371; // km
 const SAT_SIZE = 80; // km
-const TIME_STEP = 3 * 10; // per frame
+const TIME_STEP = 3 * 100; // per frame
 
 const OPACITY = 0.22;
 
