@@ -5,3 +5,4 @@ npm install postcss-cli
 npm install csv-parser
 npm install @mui/material @emotion/react @emotion/styled
 npm install @mui/icons-material
+npm install d3
