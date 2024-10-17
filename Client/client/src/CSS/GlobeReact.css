@@ -134,3 +134,15 @@ input:checked + .slider:before {
   padding-left: 0.5rem;
   padding-bottom: 0.2rem;
 }
+
+.AirCountry {
+  position: fixed;
+  right: 10px;
+  z-index: 1;
+  color: aliceblue;
+  display: flex;
+  flex-direction: column;
+  margin-left: 80%;
+  top: 25rem;
+  position: absolute;
+}

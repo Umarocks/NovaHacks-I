@@ -9,6 +9,9 @@
   <script src="//unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
   <script src="//unpkg.com/@babel/standalone"></script>
 
+  <script src="//unpkg.com/d3-dsv"></script>
+  <script src="//unpkg.com/index-array-by"></script>
+
   <script src="//unpkg.com/react-globe.gl"></script>
   <!--<script src="../../dist/react-globe.gl.js"></script>-->
 </head>
@@ -17,57 +20,77 @@
   <div id="globeViz"></div>
 
   <script type="text/jsx">
-        const { useState, useEffect, useRef } = React;
+    const { useState, useEffect, useRef } = React;
 
-        const World = () => {
-          const globeEl = useRef();
-          const [countries, setCountries] = useState({ features: []});
-          const [altitude, setAltitude] = useState(0.1);
-          const [transitionDuration, setTransitionDuration] = useState(1000);
+    const COUNTRY = ['India', 'USA', 'Canada','China'];
+    const OPACITY = 0.22;
 
-          useEffect(() => {
-            // load data
-            fetch('../../public/datasets/ne_110m_admin_0_countries.geojson').then(res => res.json())
-              .then(countries=> {
-                setCountries(countries);
-    console.log(countries);
+    const airportParse = ([airportId, name, city, country, iata, icao, lat, lng, alt, timezone, dst, tz, type, source]) => ({ airportId, name, city, country, iata, icao, lat, lng, alt, timezone, dst, tz, type, source });
+    const routeParse = ([airline, airlineId, srcIata, srcAirportId, dstIata, dstAirportId, codeshare, stops, equipment]) => ({ airline, airlineId, srcIata, srcAirportId, dstIata, dstAirportId, codeshare, stops, equipment});
 
-                setTimeout(() => {
-                  setTransitionDuration(4000);
-                  setAltitude(() => feat => Math.max(0.1, Math.sqrt(+feat.properties.POP_EST) * 7e-5));
-                }, 3000);
-              });
-    console.log(altitude);
-          }, []);
+    const World = () => {
+      const globeEl = useRef();
+      const [airports, setAirports] = useState([]);
+      const [routes, setRoutes] = useState([]);
 
-          useEffect(() => {
-            // Auto-rotate
-            globeEl.current.controls().autoRotate = true;
-            globeEl.current.controls().autoRotateSpeed = 0.3;
+      useEffect(() => {
+        // load data
+        Promise.all([
+          fetch('https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat').then(res => res.text())
+            .then(d => d3.csvParseRows(d, airportParse)),
+          fetch('https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat').then(res => res.text())
+            .then(d => d3.csvParseRows(d, routeParse))
+        ]).then(([airports, routes]) => {
 
-            globeEl.current.pointOfView({ altitude: 4 }, 5000);
-          }, []);
+          const byIata = indexBy(airports, 'iata', false);
 
-          return <Globe
-            ref={globeEl}
-            globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
+          const filteredRoutes = routes
+            .filter(d => byIata.hasOwnProperty(d.srcIata) && byIata.hasOwnProperty(d.dstIata)) // exclude unknown airports
+            .filter(d => d.stops === '0') // non-stop flights only
+            .map(d => Object.assign(d, {
+              srcAirport: byIata[d.srcIata],
+              dstAirport: byIata[d.dstIata]
+            }))
+            .filter(d => COUNTRY.includes(d.srcAirport.country)  && !COUNTRY.includes(d.dstAirport.country)); // international routes from country
 
-            polygonsData={countries.features.filter(d => d.properties.ISO_A2 !== 'AQ')}
-            polygonAltitude={altitude}
-            polygonCapColor={() => 'rgba(200, 0, 0, 0.6)'}
-            polygonSideColor={() => 'rgba(0, 100, 0, 0.15)'}
-            polygonLabel={({ properties: d }) => `
+          setAirports(airports);
+          setRoutes(filteredRoutes);
+        });
+      }, []);
 
-              <b>${d.ADMIN} (${d.ISO_A2})</b> <br />
-              Population: <i>${Math.round(+d.POP_EST / 1e4) / 1e2}M</i>
-            `}
-            polygonsTransitionDuration={transitionDuration}
-          />;
-        };
+      useEffect(() => {
+        // aim at continental US centroid
+        globeEl.current.pointOfView({ lat: 39.6, lng: -98.5, altitude: 2 });
+      }, []);
 
-        ReactDOM.render(
-          <World />,
-          document.getElementById('globeViz')
-        );
+      return <Globe
+        ref={globeEl}
+        globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
+
+        arcsData={routes}
+        arcLabel={d => `${d.airline}: ${d.srcIata} &#8594; ${d.dstIata}`}
+        arcStartLat={d => +d.srcAirport.lat}
+        arcStartLng={d => +d.srcAirport.lng}
+        arcEndLat={d => +d.dstAirport.lat}
+        arcEndLng={d => +d.dstAirport.lng}
+        arcDashLength={0.25}
+        arcDashGap={1}
+        arcDashInitialGap={() => Math.random()}
+        arcDashAnimateTime={4000}
+        arcColor={d => [`rgba(0, 255, 0, ${OPACITY})`, `rgba(255, 0, 0, ${OPACITY})`]}
+        arcsTransitionDuration={0}
+
+        pointsData={airports}
+        pointColor={() => 'orange'}
+        pointAltitude={0}
+        pointRadius={0.02}
+        pointsMerge={true}
+      />;
+    };
+
+    ReactDOM.render(
+      <World />,
+      document.getElementById('globeViz')
+    );
   </script>
 </body>

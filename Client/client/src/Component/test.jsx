@@ -4,11 +4,72 @@ import Clouds from "./Clouds";
 import "../CSS/test.css";
 import * as THREE from "three";
 import useScript from "./useScript"; // Import the custom hook
+import MultiSelect from "./MultipleSelect";
+import data from "./data.json";
+import Button from "@mui/material/Button";
+import * as d3 from "d3"; // Import d3-dsv
+import indexBy from "index-array-by";
 
 const { useState, useEffect, useRef, useMemo } = React;
 const EARTH_RADIUS_KM = 6371; // km
 const SAT_SIZE = 80; // km
 const TIME_STEP = 3 * 10; // per frame
+
+const OPACITY = 0.22;
+
+const airportParse = ([
+  airportId,
+  name,
+  city,
+  country,
+  iata,
+  icao,
+  lat,
+  lng,
+  alt,
+  timezone,
+  dst,
+  tz,
+  type,
+  source,
+]) => ({
+  airportId,
+  name,
+  city,
+  country,
+  iata,
+  icao,
+  lat,
+  lng,
+  alt,
+  timezone,
+  dst,
+  tz,
+  type,
+  source,
+});
+const routeParse = ([
+  airline,
+  airlineId,
+  srcIata,
+  srcAirportId,
+  dstIata,
+  dstAirportId,
+  codeshare,
+  stops,
+  equipment,
+]) => ({
+  airline,
+  airlineId,
+  srcIata,
+  srcAirportId,
+  dstIata,
+  dstAirportId,
+  codeshare,
+  stops,
+  equipment,
+});
+
 const World = (props) => {
   const globeEl = useRef();
 
@@ -234,9 +295,116 @@ const World = (props) => {
     });
   }, [showCables]);
 
+  // Airline Routes
+  const [selectedCountries, setSelectedCountries] = useState([]);
+  var counter = 0;
+  const getAirData = () => {
+    // selectedCountries.forEach((country) => console.log(country.name));
+    const updatedCountries = selectedCountries.map((country) => country.name);
+    console.log(updatedCountries);
+    setCOUNTRY(updatedCountries);
+    setTimeout(() => {
+      if (counter === 0) {
+        counter++;
+        getAirData();
+      }
+    }, 1000);
+  };
+  const [airports, setAirports] = useState([]);
+  const [routes, setRoutes] = useState([]);
+  const [airDataParam, setAirDataParam] = useState({});
+  const [COUNTRY, setCOUNTRY] = useState([]);
+  const fetchData = async () => {
+    try {
+      const [airports, routes] = await Promise.all([
+        fetch(
+          "https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat"
+        )
+          .then((res) => res.text())
+          .then((d) => d3.csvParseRows(d, airportParse)),
+        fetch(
+          "https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat"
+        )
+          .then((res) => res.text())
+          .then((d) => d3.csvParseRows(d, routeParse)),
+      ]);
+
+      const byIata = indexBy(airports, "iata", false);
+
+      const filteredRoutes = routes
+        .filter(
+          (d) =>
+            byIata.hasOwnProperty(d.srcIata) && byIata.hasOwnProperty(d.dstIata)
+        ) // exclude unknown airports
+        .filter((d) => d.stops === "0") // non-stop flights only
+        .map((d) =>
+          Object.assign(d, {
+            srcAirport: byIata[d.srcIata],
+            dstAirport: byIata[d.dstIata],
+          })
+        )
+        .filter(
+          (d) =>
+            COUNTRY.includes(d.srcAirport.country) &&
+            !COUNTRY.includes(d.dstAirport.country)
+        ); // international routes from country
+
+      setAirports(airports);
+      setRoutes(filteredRoutes);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (!COUNTRY) return;
+    fetchData();
+    const AirData = {
+      arcsData: routes,
+      arcLabel: (d) => `${d.airline}: ${d.srcIata} &#8594; ${d.dstIata}`,
+      arcStartLat: (d) => +d.srcAirport.lat,
+      arcStartLng: (d) => +d.srcAirport.lng,
+      arcEndLat: (d) => +d.dstAirport.lat,
+      arcEndLng: (d) => +d.dstAirport.lng,
+      arcDashLength: 0.25,
+      arcDashGap: 1,
+      arcDashInitialGap: () => Math.random(),
+      arcDashAnimateTime: 4000,
+      arcColor: (d) => [
+        `rgba(0, 255, 0, ${OPACITY})`,
+        `rgba(255, 0, 0, ${OPACITY})`,
+      ],
+      arcsTransitionDuration: 0,
+      pointsData: airports,
+      pointColor: () => "orange",
+      pointAltitude: 0,
+      pointRadius: 0.02,
+      pointsMerge: true,
+    };
+    setAirDataParam(AirData);
+    console.log("EFFECT");
+  }, [COUNTRY]);
+  useEffect(() => {}, counter);
   return (
     <>
-      <Globe {...commonParams} {...satelliteParams} {...cableParams} />
+      <Globe
+        {...commonParams}
+        {...satelliteParams}
+        {...cableParams}
+        {...airDataParam}
+      />
+      <div className="AirCountry">
+        <MultiSelect
+          countries={data.data.countries}
+          labelFor={"Select Country for Outbound International Air Traffic"}
+          selected={selectedCountries}
+          setSelectedOptions={setSelectedCountries}
+        />
+        <br />
+        <Button variant="outlined" id="AirData" onClick={getAirData}>
+          Generate Visualization
+        </Button>
+      </div>
       <label className="switch">
         <p>Show Clouds</p>
 
