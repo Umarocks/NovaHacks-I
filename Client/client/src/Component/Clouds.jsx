@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
 const Clouds = ({ globeRef, showClouds }) => {
@@ -48,7 +48,6 @@ const Clouds = ({ globeRef, showClouds }) => {
       if (cloudsRef.current) {
         globe.scene().remove(cloudsRef.current);
         cloudsRef.current = null; // Clear the reference
-        console.log("Clouds removed from the scene");
       }
     };
   }, [globeRef, showClouds]); // Re-run effect when globeRef or showClouds changes

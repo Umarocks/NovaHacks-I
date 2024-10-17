@@ -1,17 +1,16 @@
 import React from "react";
 import Globe from "react-globe.gl";
-import ReactDOM from "react-dom";
 import Clouds from "./Clouds";
 import "../CSS/test.css";
 const { useState, useEffect, useRef } = React;
 const World = (props) => {
   const globeEl = useRef();
   const [countries, setCountries] = useState({ features: [] });
-  const [altitude, setAltitude] = useState(0.1);
+  // const [altitude, setAltitude] = useState(0.1);
   const [transitionDuration, setTransitionDuration] = useState(1000);
   const [paramName, setParamName] = useState("Population");
   const [showClouds, setShowClouds] = useState(false);
-  const globeE2 = useRef();
+  const [showDayLight, setShowDayLight] = useState(false);
   const [dataInput, setDataInput] = useState([
     {
       Country: "Canada",
@@ -55,8 +54,7 @@ const World = (props) => {
             ...countries, // Keep other properties of the GeoJSON
             features: updatedFeatures, // Replace features with the updated ones
           });
-          console.log(paramName);
-          console.log(dataInput[0].parameterName);
+
           setParamName(dataInput[0].parameterName);
         }
         setTimeout(() => {
@@ -69,8 +67,6 @@ const World = (props) => {
     };
 
     fetchCountries();
-    console.log("Data Input:", dataInput);
-    console.log("USE EFFECT TEST");
   }, [props.dataInput2]);
   // afaf
   useEffect(() => {
@@ -79,14 +75,16 @@ const World = (props) => {
     globeEl.current.controls().autoRotateSpeed = 0.3;
     globeEl.current.pointOfView({ altitude: 4 }, 5000);
   }, []);
-  {
-    console.log("rendering globe");
-  }
+
   return (
     <>
       <Globe
         ref={globeEl}
-        globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
+        globeImageUrl={
+          showDayLight
+            ? "//unpkg.com/three-globe/example/img/earth-night.jpg"
+            : "//unpkg.com/three-globe/example/img/earth-day.jpg"
+        }
         backgroundImageUrl={"//unpkg.com/three-globe/example/img/night-sky.png"}
         polygonsData={countries.features.filter(
           ((d) => d.properties.ISO_A2 !== "AQ") &&
@@ -107,10 +105,8 @@ const World = (props) => {
             `}
         polygonsTransitionDuration={transitionDuration}
       />
-      `${console.log("DATA INPUT AFTER RENDER")}`; $
-      {console.log(props.dataInput2)};
       <label className="switch">
-        <b>Show Clouds</b>
+        <p>Show Clouds</p>
 
         <div className="spanSlider">
           <input
@@ -121,20 +117,17 @@ const World = (props) => {
           <span className="slider"></span>
         </div>
       </label>
-      <div className="Day">
-        <label className="switch">
-          <b>Show Clouds</b>
-
-          <div className="spanSlider">
-            <input
-              type="checkbox"
-              checked={showClouds}
-              onChange={() => setShowClouds((prev) => !prev)}
-            />
-            <span className="slider"></span>
-          </div>
-        </label>
-      </div>
+      <label className="Dayswitch">
+        <p>Day Light</p>
+        <div className="spanSlider">
+          <input
+            type="checkbox"
+            checked={showDayLight}
+            onChange={() => setShowDayLight((prev) => !prev)}
+          />
+          <span className="slider"></span>
+        </div>
+      </label>
       <Clouds globeRef={globeEl} showClouds={showClouds} />
     </>
   );

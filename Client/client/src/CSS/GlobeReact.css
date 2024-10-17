@@ -19,7 +19,6 @@
 
 .switch input {
   display: none;
-
   z-index: 1;
 }
 
@@ -58,4 +57,25 @@ input:checked + .slider:before {
 
 .spanSlider {
   padding-left: 1rem;
+}
+
+.Dayswitch {
+  position: absolute;
+  bottom: 6rem;
+  right: 36px;
+  z-index: 1;
+  color: aliceblue;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Dayswitch input {
+  display: none;
+  z-index: 1;
+}
+
+.Dayswitch p {
+  padding-left: 0.5rem;
+  padding-bottom: 0.2rem;
 }
