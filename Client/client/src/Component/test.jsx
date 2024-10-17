@@ -138,7 +138,7 @@ const World = (props) => {
   useEffect(() => {
     // Auto-rotate
     setGlobeRadius(globeEl.current.getGlobeRadius());
-    globeEl.current.controls().autoRotate = true;
+    globeEl.current.controls().autoRotate = false;
     globeEl.current.controls().autoRotateSpeed = 0.3;
     globeEl.current.pointOfView({ altitude: 2.5 }, 5000);
   }, []);
@@ -449,6 +449,20 @@ const World = (props) => {
             checked={showCables}
             onChange={() => {
               setShowCables((prev) => !prev);
+            }}
+          />
+          <span className="slider"></span>
+        </div>
+      </label>
+      <label className="AutoRotate">
+        <p>AutoRotate</p>
+        <div className="spanSlider">
+          <input
+            type="checkbox"
+            checked={globeEl.current.controls().autoRotate}
+            onChange={() => {
+              globeEl.current.controls().autoRotate =
+                !globeEl.current.controls().autoRotate;
             }}
           />
           <span className="slider"></span>
