@@ -154,7 +154,9 @@ const World = (props) => {
         d.properties.ISO_A2 !== "AQ" && countryNames.includes(d.properties.NAME)
     ),
     polygonAltitude: ({ properties: d }) =>
-      d.POP_EST > 100000000
+      d.POP_EST > 100 &&
+      dataInput[0].parameter_max != undefined &&
+      dataInput[0].parameter_min != undefined
         ? ((d.POP_EST - dataInput[0].parameter_min) /
             (dataInput[0].parameter_max - dataInput[0].parameter_min)) *
           10

@@ -50,6 +50,8 @@ def get_information_by_territory_service( country_name, year, parameter):
     
     df=pd.read_csv("./Datasets/owid-energy-data.csv")
     ans = []
+    if(country_name ==[]):
+        country_name = ['Luxembourg']
     for country in country_name:
         latitude,longitude = get_lat_lon(country)
         
@@ -59,6 +61,9 @@ def get_information_by_territory_service( country_name, year, parameter):
             result = 'no data'
         else:
             result = int(result)
+        parameter_max = df[parameter].max() if not pd.isna(df[parameter].max()) else 0
+        parameter_min = df[parameter].min() if not pd.isna(df[parameter].min()) else 0
+        
         ans.append({
                  "lat": latitude,
                  "lon": longitude,
@@ -66,8 +71,8 @@ def get_information_by_territory_service( country_name, year, parameter):
                  "Year": year,
                  "parameter":result,
                  "parameterName": parameter,
-                 "parameter_max": df[parameter].max(),
-                 "parameter_min": df[parameter].min()
+                 "parameter_max": parameter_max,
+                 "parameter_min": parameter_min,
         })
       
 
