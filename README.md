@@ -1,15 +1,15 @@
-# EcoSphere 3D
+# EcoSphere 360
 
 ## Inspiration
 
-Our project is dedicated to social good. We believe being informed is the most important step towards sustainability. Our team has frequently used the [OWIS database](https://ourworldindata.org/energy) climate database for accurate information, but soon realized that this database would be improved with a powerful 3D visualization tool. We also wanted to leverage the power of AI and large language models. That's why we invented EcoSphere 3D!
+Our project is dedicated to social good. We believe being informed is the most important step towards sustainability. Our team has frequently used the [OWIS database](https://ourworldindata.org/energy) climate database for accurate information, but soon realized that this database would be improved with a powerful 3D visualization tool. We also wanted to leverage the power of AI and large language models. That's why we invented EcoSphere 360!
 
 [![Watch the video](https://img.youtube.com/vi/_98syrU_P8o/maxresdefault.jpg)](https://www.youtube.com/watch?v=_98syrU_P8o)
 
 
 ## What it does
 
-- EcoSphere 3D visualizes data from the [OWIS database](https://ourworldindata.org/energy).
+- EcoSphere 360 visualizes data from the [OWIS database](https://ourworldindata.org/energy).
 - Interact with an intelligent AI LLM to instantly parse and find information in this database through a process known as the `AgentExecutor`.
 - Immerse yourself in the real-time 3D globe graphics powered by node.js and 3js.
 - Find sustainability information over time and track hundreds of metrics such as energy usage, biofuel increase per capita, and many more!
@@ -71,7 +71,7 @@ Action Input: df[df['Year']==2019].sort_values(by='biofuel_cons_change_pct', asc
 
 We are extremely proud that our 3d render runs in real time in the web browser. Our team had a heavy focus on web performance and optimizations. The end product is extremely smooth and responsive, even on low end devices.
 
-Here are some examples of the visualizations possible with EcoSphere 3D:
+Here are some examples of the visualizations possible with EcoSphere 360:
 
 ![](https://files.catbox.moe/t0d9uv.png)
 
@@ -83,7 +83,7 @@ This project was a huge learning opportunity for everyone involved. At the start
 
 On the frontend side, our team learned tons of new things about web rendering in 3D and performance optimizations. Early versions of this project had huge performance issues and each visualization could take up to 15 minutes to generate. We are pleased to announce that the final versions of this project have the capability to instantly execute and create beautiful visualizations.
 
-## What's next for EcoSphere 3D
+## What's next for EcoSphere 360
 
 Our future plan with this project is to host a free website dedicated to globe visualization, offering comprehensive insights into environmental data. We aim to include real-time air traffic data and air pollution trails to better understand how human activities impact the atmosphere. Additionally, we plan to incorporate new parameters and extend our dataset for enhanced and dynamic visualizations.
 
