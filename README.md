@@ -1,5 +1,5 @@
 # EcoSphere 360
-![](https://files.catbox.moe/ibq0z0.png)
+
 ## Inspiration
 
 Our project is dedicated to social good. We believe being informed is the most important step towards sustainability. Our team has frequently used the [OWIS database](https://ourworldindata.org/energy) climate database for accurate information, but soon realized that this database would be improved with a powerful 3D visualization tool. We also wanted to leverage the power of AI and large language models. That's why we invented EcoSphere 360!
@@ -112,3 +112,7 @@ def get_keys():
 5. Execute the application `python ./server/langchain-llvm/main.py`
 
 ## [Learn More About This Project](https://devpost.com/software/ecosphere-3d)
+
+# [WINNER OF NOVAHACKS I HACKATHON](https://devpost.com/software/ecosphere-3d)
+
+![Winning Badge](https://files.catbox.moe/ibq0z0.png)
