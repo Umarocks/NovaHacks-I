@@ -7,7 +7,6 @@ Our project is dedicated to social good. We believe being informed is the most i
 
 ## [ Watch the Full video ](https://www.youtube.com/watch?v=_98syrU_P8o)
 
-
 https://github.com/user-attachments/assets/cc6bf0a2-e11c-44bb-8788-0b3118978df1
 
 
@@ -41,6 +40,15 @@ We use CSV parsing libraries `pandas` and `numpy`.
 We also use the Python libraries `langchain` and `OpenAI` to invoke and train our LLM.
 ![alt text](image.png)
 make a new file named openai_api_key as above make a same name function and paste it for LLM to work in real time.
+
+## LLM Integration for Easier Data interpretation 
+
+
+
+https://github.com/user-attachments/assets/5f8f3b1e-a121-4f17-89a6-d9a6ebbf8659
+
+
+
 
 ## Challenges we ran into
 
@@ -78,7 +86,11 @@ We are extremely proud that our 3d render runs in real time in the web browser. 
 
 Here are some examples of the visualizations possible with EcoSphere 360:
 
-![](https://files.catbox.moe/t0d9uv.png)
+
+
+https://github.com/user-attachments/assets/1f28d4fa-d3e0-4d06-8ba4-f046e2a0fa10
+
+
 
 Our team is also dedicated to open source/OSS software. This project is licensed under a copyleft MIT license meaning its free to remix and build upon by the entire developer community.
 
