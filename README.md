@@ -7,7 +7,7 @@ Our project is dedicated to social good. We believe being informed is the most i
 
 [![Watch the video](https://img.youtube.com/vi/_98syrU_P8o/maxresdefault.jpg)](https://www.youtube.com/watch?v=_98syrU_P8o)
 
-<video src='https://www.youtube.com/watch?v=_98syrU_P8o' width=180/>
+<video src='[https://www.youtube.com/watch?v=_98syrU_P8o](https://www.youtube.com/watch?v=_98syrU_P8o)' width=180/>
 ## What it does
 
 - EcoSphere 360 visualizes data from the [OWIS database](https://ourworldindata.org/energy).
