@@ -1,5 +1,4 @@
 
-https://github.com/user-attachments/assets/e6b7290b-cfa5-4d50-af21-d0145f7b0a9c
 # EcoSphere 360
 
 ## Inspiration
