@@ -1,3 +1,5 @@
+
+https://github.com/user-attachments/assets/e6b7290b-cfa5-4d50-af21-d0145f7b0a9c
 # EcoSphere 360
 
 ## Inspiration
@@ -6,7 +8,7 @@ Our project is dedicated to social good. We believe being informed is the most i
 
 [![Watch the video](https://img.youtube.com/vi/_98syrU_P8o/maxresdefault.jpg)](https://www.youtube.com/watch?v=_98syrU_P8o)
 
-
+<video src='https://www.youtube.com/watch?v=_98syrU_P8o' width=180/>
 ## What it does
 
 - EcoSphere 360 visualizes data from the [OWIS database](https://ourworldindata.org/energy).
