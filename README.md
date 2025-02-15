@@ -5,9 +5,13 @@
 
 Our project is dedicated to social good. We believe being informed is the most important step towards sustainability. Our team has frequently used the [OWIS database](https://ourworldindata.org/energy) climate database for accurate information, but soon realized that this database would be improved with a powerful 3D visualization tool. We also wanted to leverage the power of AI and large language models. That's why we invented EcoSphere 360!
 
-[![Watch the video](https://img.youtube.com/vi/_98syrU_P8o/maxresdefault.jpg)](https://www.youtube.com/watch?v=_98syrU_P8o)
+## [ Watch the Full video ](https://www.youtube.com/watch?v=_98syrU_P8o)
 
-<video src='[https://www.youtube.com/watch?v=_98syrU_P8o](https://www.youtube.com/watch?v=_98syrU_P8o)' width=180/>
+
+https://github.com/user-attachments/assets/cc6bf0a2-e11c-44bb-8788-0b3118978df1
+
+
+
 ## What it does
 
 - EcoSphere 360 visualizes data from the [OWIS database](https://ourworldindata.org/energy).
